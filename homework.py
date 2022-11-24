@@ -20,6 +20,7 @@ class InfoMessage:
     calories: float
 
     def get_message(self) -> str:
+        """Вернуть результат тренировки"""
         return (f'Тип тренировки: {self.training_type}; '
                 f'Длительность: {self.duration:.3f} ч.; '
                 f'Дистанция: {self.distance:.3f} км; '
@@ -92,6 +93,7 @@ class Running(Training):
         super().__init__(action, duration, weight)
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed()
                 + self.CALORIES_MEAN_SPEED_SHIFT) * self.weight / self.M_IN_KM
                 * self.duration * self.H_IN_MIN)
@@ -122,6 +124,7 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         return ((self.CALORIES_WEIGHT_MULTIPLIER * self.weight
                 + ((self.get_mean_speed() * self.KMH_IN_MSEC)**2
                  / (self.height / self.CM_IN_M))
@@ -158,12 +161,14 @@ class Swimming(Training):
         self.count_pool = count_pool
 
     def get_mean_speed(self) -> float:
+        """Получить среднюю скорость движения."""
         return (self.length_pool
                 * self.count_pool
                 / self.M_IN_KM
                 / self.duration)
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         return ((self.get_mean_speed()
                 + self.SWIM)
                 * self.SWIM2
@@ -174,9 +179,9 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     try:
-        type_of_training: dict = {'SWM': Swimming,
-                                  'RUN': Running,
-                                  'WLK': SportsWalking}
+        type_of_training: dict[str] = {'SWM': Swimming,
+                                       'RUN': Running,
+                                       'WLK': SportsWalking}
         return type_of_training[workout_type](*data)
     except Exception:
         if workout_type not in type_of_training:
