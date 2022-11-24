@@ -179,9 +179,9 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     try:
-        type_of_training: dict[str] = {'SWM': Swimming,
-                                       'RUN': Running,
-                                       'WLK': SportsWalking}
+        type_of_training: dict[str, object] = {'SWM': Swimming,
+                                               'RUN': Running,
+                                               'WLK': SportsWalking}
         return type_of_training[workout_type](*data)
     except Exception:
         if workout_type not in type_of_training:
