@@ -182,9 +182,9 @@ def read_package(workout_type: str, data: list) -> Training:
                                                    'RUN': Running,
                                                    'WLK': SportsWalking}
     if workout_type not in type_of_training:
-       raise Exception(f'UnknownTypeOfWorkout: {workout_type}, '
-                       'an unknown type of training was '
-                       'transferred to the dictionary.')
+        raise Exception(f'UnknownTypeOfWorkout: {workout_type}, '
+                        'an unknown type of training was '
+                        'transferred to the dictionary.')
     return type_of_training[workout_type](*data)
 
 
