@@ -40,7 +40,7 @@ class Training:
                  weight: float,
                  ) -> None:
         """
-        Размерности:
+        Атрибуты:
         action   - количество совершённых действий
                 (число шагов при ходьбе и беге либо гребков — при плавании);
         duration - длительность тренировки в часах
@@ -84,7 +84,7 @@ class Running(Training):
                  weight: float
                  ) -> None:
         """
-        Размерности:
+        Атрибуты:
         action   - количество совершённых действий
                 (число шагов при ходьбе и беге либо гребков — при плавании);
         duration - длительность тренировки в ч;
@@ -113,7 +113,7 @@ class SportsWalking(Training):
                  height: float
                  ) -> None:
         """
-        Размерности:
+        Атрибуты:
         action   - количество совершённых действий
                    (число шагов при ходьбе и беге либо гребков — при плавании);
         duration - длительность тренировки в ч;
@@ -146,7 +146,7 @@ class Swimming(Training):
                  count_pool: int
                  ) -> None:
         """
-        Размерности:
+        Атрибуты:
         action   - количество совершённых действий
                    (число шагов при ходьбе и беге либо гребков — при плавании);
         duration - длительность тренировки в ч;
@@ -178,16 +178,14 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    try:
-        type_of_training: dict[str, type] = {'SWM': Swimming,
-                                             'RUN': Running,
-                                             'WLK': SportsWalking}
-        return type_of_training[workout_type](*data)
-    except Exception:
-        if workout_type not in type_of_training:
-            raise Exception(f'UnknownTypeOfWorkout: {workout_type}, '
-                            'an unknown type of training was '
-                            'transferred to the dictionary.')
+    type_of_training: dict[str, type[Training]] = {'SWM': Swimming,
+                                                   'RUN': Running,
+                                                   'WLK': SportsWalking}
+    if workout_type not in type_of_training:
+       raise Exception(f'UnknownTypeOfWorkout: {workout_type}, '
+                       'an unknown type of training was '
+                       'transferred to the dictionary.')
+    return type_of_training[workout_type](*data)
 
 
 def main(training: Training) -> None:
